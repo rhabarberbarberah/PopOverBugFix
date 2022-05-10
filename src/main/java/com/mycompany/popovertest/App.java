@@ -27,7 +27,7 @@ import org.controlsfx.control.ToggleSwitch;
  */
 public class App extends Application {
 
-    private final Button btn = new Button("Hover this text to see the popover!");
+    private final Button btn = new Button("Hover this button to see the popover!");
     private final CheckBox cbSecondPO = new CheckBox("show second PopOver");
     private final BooleanProperty showSecond = new SimpleBooleanProperty();
     private static final String PO_TXT = "If you close the Window using the closebutton of the window, while the Popover is visible, the Application will exit with an exception!";
@@ -42,14 +42,19 @@ public class App extends Application {
         formatPOText(LBL_PO1);
         showSecond.bindBidirectional(cbSecondPO.selectedProperty());
         po1.setArrowLocation(PopOver.ArrowLocation.RIGHT_TOP);
-        btn.setOnMouseEntered(t -> {
-            po.show(btn);
-            if (showSecond.get()) {
-                po1.show(btn);
-            }
-        });
-        Dialog dlg = new Alert(Alert.AlertType.CONFIRMATION, "Would you like to continue with safety net?", ButtonType.YES, ButtonType.NO);
-        dlg.setHeaderText("Setup");
+        initMouseInteraction();
+        initSetupDialog();
+        final VBox vBox = new VBox(cbSecondPO, btn);
+        vBox.setAlignment(Pos.CENTER);
+        vBox.setSpacing(10);
+        var scene = new Scene(vBox, 640, 480);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public void initSetupDialog() {
+        Dialog dlg = new Alert(Alert.AlertType.CONFIRMATION, "(Will fix the exception-problem)", ButtonType.YES, ButtonType.NO);
+        dlg.setHeaderText("Continue with safety net?");
         dlg.showAndWait().ifPresent((t) -> {
             if (dlg.getResult() instanceof ButtonType btn) {
                 if (btn.equals(ButtonType.YES)) {
@@ -58,12 +63,15 @@ public class App extends Application {
                 }
             }
         });
-        final VBox vBox = new VBox(cbSecondPO, btn);
-        vBox.setAlignment(Pos.CENTER);
-        vBox.setSpacing(10);
-        var scene = new Scene(vBox, 640, 480);
-        stage.setScene(scene);
-        stage.show();
+    }
+
+    public void initMouseInteraction() {
+        btn.setOnMouseEntered(t -> {
+            po.show(btn);
+            if (showSecond.get()) {
+                po1.show(btn);
+            }
+        });
     }
 
     private final EventHandler<WindowEvent> ownerCloseLambda = (t) -> {
