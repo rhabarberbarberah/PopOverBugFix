@@ -1,5 +1,5 @@
 # PopOverBugFix
-This repo holds a short example to test the ControlsFX-PopOver-Bug described in [rhabarberbarberah:HotfixPopOverOnWindowClose](https://github.com/rhabarberbarberah/controlsfx/tree/HotfixPopOverOnWindowClose)
+This repo holds a short example to test the ControlsFX-PopOver-Bug described in [rhabarberbarberah:HotfixPopOverOnWindowClose](https://github.com/controlsfx/controlsfx/pull/1443#issue-1228982058)
 
 ## Explanation
 When starting the application, you'll be prompted to decide, if you want to start with or without the fix.
